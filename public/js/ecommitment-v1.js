@@ -18,7 +18,7 @@
     // Set the CSS rules as text content
     style.textContent = `
     .ecomm-container {
-      width: 100%;
+      width: 100px;
       height: 70px;
       background-color: blue;
       border: none;
