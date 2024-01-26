@@ -2,12 +2,12 @@
 
   //GLOBALS
   const store_id = LS.store.id
-  const product_id = window.localStorage.getItem('Ecommitment-product_id');
-  const variant_id = window.localStorage.getItem('Ecommitment-variant_id');
+  // const product_id = window.localStorage.getItem('Ecommitment-product_id');
+  // const variant_id = window.localStorage.getItem('Ecommitment-variant_id');
 
-  console.log("store_id: " + store_id)
-  console.log("product_id: " + product_id)
-  console.log("variant_id: " + variant_id)
+  // console.log("store_id: " + store_id)
+  // console.log("product_id: " + product_id)
+  // console.log("variant_id: " + variant_id)
 
   //FLUJOS DENTRO DEL JAVASCRIPT
 
@@ -441,274 +441,278 @@
 
   } //End function add EnvironmentDivv2
 
-  async function addProductToCart(product_id, variant_id, quantity) {
-    console.log("addProductToCart")
-    if (LS.cart.items) {
-      //datos hardocodeados, esto deberia ser dinamico por cada usuario despues. 
-      //aplicar la lógica del store_id
-      const data = new URLSearchParams();
-      data.append('add_to_cart', product_id); //product_id
-      data.append('variant_id', variant_id); //variant_id
-      data.append('quantity', quantity); //quantity
+  // async function addProductToCart(product_id, variant_id, quantity) {
+  //   console.log("addProductToCart")
+  //   if (LS.cart.items) {
+  //     //datos hardocodeados, esto deberia ser dinamico por cada usuario despues. 
+  //     //aplicar la lógica del store_id
+  //     const data = new URLSearchParams();
+  //     data.append('add_to_cart', product_id); //product_id
+  //     data.append('variant_id', variant_id); //variant_id
+  //     data.append('quantity', quantity); //quantity
 
-      await fetch('/comprar/', {
-        method: 'POST',
-        body: data,
-        headers: {
-          'Content-Type': 'application/x-www-form-urlencoded'
-        }
-      })
-        .then(response => {
-          if (response.ok) {
-            console.log('Product added to cart successfully.');
-          } else {
-            console.log('Error while adding to cart.');
-          }
-        })
-        .catch(error => {
-          console.error('Error:', error);
-        });
-
-
-    }
-  }
-
-  async function removeUniqueProductFromCart(quantity, vid) {
-    console.log("removeUniqueProductFromCart")
-    let items_on_cart = LS.cart.items
-    console.log("items_on_cart")
-    console.log(items_on_cart)
-    console.log("items_on_cart")
-
-    var result = items_on_cart.filter(obj => {
-      return obj.variant_id == vid
-    })
-
-    if (result.length === 1) {
+  //     await fetch('/comprar/', {
+  //       method: 'POST',
+  //       body: data,
+  //       headers: {
+  //         'Content-Type': 'application/x-www-form-urlencoded'
+  //       }
+  //     })
+  //       .then(response => {
+  //         if (response.ok) {
+  //           console.log('Product added to cart successfully.');
+  //         } else {
+  //           console.log('Error while adding to cart.');
+  //         }
+  //       })
+  //       .catch(error => {
+  //         console.error('Error:', error);
+  //       });
 
 
-      let item_id = result[0].id.toString()
-      console.log("item_id with variant_id "+ vid + ": "+ item_id)
+  //   }
+  // }
 
-      let body = new URLSearchParams();
-      body.append(`quantity[${item_id}]`, quantity.toString());
+  // async function removeUniqueProductFromCart(quantity, vid) {
+  //   console.log("removeUniqueProductFromCart")
+  //   let items_on_cart = LS.cart.items
+  //   console.log("items_on_cart")
+  //   console.log(items_on_cart)
+  //   console.log("items_on_cart")
 
-      console.log("Request Body:", body.toString());
+  //   var result = items_on_cart.filter(obj => {
+  //     return obj.variant_id == vid
+  //   })
 
-
-      await fetch("/cart/update/", {
-        method: "POST",
-        body: body,
-        headers: {
-          "Content-Type": "application/x-www-form-urlencoded",
-        },
-      })
-        .then((response) => {
-
-          if (response.ok) {
-            console.log("success remove cart");
-            reloadPageAfterDelay()
-
-          } else {
-            console.log("error remove cart");
-          }
-        })
-        .catch((error) => {
-          console.error("Error:", error);
-          reloadPageAfterDelay()
-        });
-
-    }
-
-  }
-
-  // Wait for 1 second (1000 milliseconds) and then reload the page
-  function reloadPageAfterDelay() {
-    setTimeout(function () {
-      // Reload the page after 1 second1
-      window.location.reload();
-    }, 400); // 1000 milliseconds = 1 second
-    //switchCheckbox.checked = true;
-  }
+  //   if (result.length === 1) {
 
 
-  async function calculator() {
-    console.log("calculator");
+  //     let item_id = result[0].id.toString()
+  //     console.log("item_id with variant_id "+ vid + ": "+ item_id)
 
-    let body_object = {
-      "ecommerceId": LS.store.id.toString(),
-      "shippingAddress": {
-          "city": LS.cart.shippingAddress.city,
-          "street": LS.cart.shippingAddress.address,
-          "number": parseInt(LS.cart.shippingAddress.number),
-          "zipcode": parseInt(LS.cart.shippingAddress.zipcode)
-      }
-    }
-    try {
-      console.log("body_object");
-      console.log(body_object);
-      console.log("body_object");
+  //     let body = new URLSearchParams();
+  //     body.append(`quantity[${item_id}]`, quantity.toString());
 
-      const response = await fetch('https://us-central1-ecommitment-qa.cloudfunctions.net/calculator/calculate-bond-fraction', {
-        method: 'POST',
-        body: JSON.stringify(body_object),
-        headers: {
-          'Content-Type': 'application/json'
-        }
-      });
+  //     console.log("Request Body:", body.toString());
 
-      if (!response.ok) {
-        console.error('Error:', response.statusText);
-        return null;
-      }
 
-      const data = await response.json();
+  //     await fetch("/cart/update/", {
+  //       method: "POST",
+  //       body: body,
+  //       headers: {
+  //         "Content-Type": "application/x-www-form-urlencoded",
+  //       },
+  //     })
+  //       .then((response) => {
 
-      // Log the calculator_response within the async function
-      console.log('Parsed JSON data:', data);
+  //         if (response.ok) {
+  //           console.log("success remove cart");
+  //           reloadPageAfterDelay()
 
-      // If you need to return the data from this function, you can do so here
-      return data;
-    } catch (error) {
-      console.error('Error:', error);
-      return null;
-    }
-  }
+  //         } else {
+  //           console.log("error remove cart");
+  //         }
+  //       })
+  //       .catch((error) => {
+  //         console.error("Error:", error);
+  //         reloadPageAfterDelay()
+  //       });
 
-  async function performCalculation() {
+  //   }
 
-    try {
-      let calculator_response = await calculator();
+  // }
 
-      return calculator_response;
-    } catch (error) {
-      console.error('Error during calculation:', error);
-      return null;
-    }
-  }
+  // // Wait for 1 second (1000 milliseconds) and then reload the page
+  // function reloadPageAfterDelay() {
+  //   setTimeout(function () {
+  //     // Reload the page after 1 second1
+  //     window.location.reload();
+  //   }, 400); // 1000 milliseconds = 1 second
+  //   //switchCheckbox.checked = true;
+  // }
 
-  async function getProductData(store_id) {
-    console.log("getProductData");
 
-    try {
-      console.log(store_id);
+  // async function calculator() {
+  //   console.log("calculator");
 
-      const response = await fetch('https://us-central1-ecommitment-qa.cloudfunctions.net/storeAndProductInfo/get-store-and-product-info', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json'
-        },
-        body: JSON.stringify({"ecommerceId": store_id.toString()})
+  //   let body_object = {
+  //     "ecommerceId": LS.store.id.toString(),
+  //     "shippingAddress": {
+  //         "city": LS.cart.shippingAddress.city,
+  //         "street": LS.cart.shippingAddress.address,
+  //         "number": parseInt(LS.cart.shippingAddress.number),
+  //         "zipcode": parseInt(LS.cart.shippingAddress.zipcode)
+  //     }
+  //   }
+  //   try {
+  //     console.log("body_object");
+  //     console.log(body_object);
+  //     console.log("body_object");
 
-      });
+  //     const response = await fetch('https://us-central1-ecommitment-qa.cloudfunctions.net/calculator/calculate-bond-fraction', {
+  //       method: 'POST',
+  //       body: JSON.stringify(body_object),
+  //       headers: {
+  //         'Content-Type': 'application/json'
+  //       }
+  //     });
 
-      if (!response.ok) {
-        console.error('Error:', response.statusText);
-        return null;
-      }
+  //     if (!response.ok) {
+  //       console.error('Error:', response.statusText);
+  //       return null;
+  //     }
 
-      const data = await response.json();
+  //     const data = await response.json();
 
-      // Log the calculator_response within the async function
-      console.log('Parsed product JSON data:', data);
+  //     // Log the calculator_response within the async function
+  //     console.log('Parsed JSON data:', data);
 
-      // If you need to return the data from this function, you can do so here
-      return data;
-    } catch (error) {
-      console.error('Error:', error);
-      return null;
-    }
-  }
+  //     // If you need to return the data from this function, you can do so here
+  //     return data;
+  //   } catch (error) {
+  //     console.error('Error:', error);
+  //     return null;
+  //   }
+  // }
+
+  // async function performCalculation() {
+
+  //   try {
+  //     let calculator_response = await calculator();
+
+  //     return calculator_response;
+  //   } catch (error) {
+  //     console.error('Error during calculation:', error);
+  //     return null;
+  //   }
+  // }
+
+  // async function getProductData(store_id) {
+  //   console.log("getProductData");
+
+  //   try {
+  //     console.log(store_id);
+
+  //     const response = await fetch('https://us-central1-ecommitment-qa.cloudfunctions.net/storeAndProductInfo/get-store-and-product-info', {
+  //       method: 'POST',
+  //       headers: {
+  //         'Content-Type': 'application/json'
+  //       },
+  //       body: JSON.stringify({"ecommerceId": store_id.toString()})
+
+  //     });
+
+  //     if (!response.ok) {
+  //       console.error('Error:', response.statusText);
+  //       return null;
+  //     }
+
+  //     const data = await response.json();
+
+  //     // Log the calculator_response within the async function
+  //     console.log('Parsed product JSON data:', data);
+
+  //     // If you need to return the data from this function, you can do so here
+  //     return data;
+  //   } catch (error) {
+  //     console.error('Error:', error);
+  //     return null;
+  //   }
+  // }
 
 
   //Check pathname
   //console.log(window.location.pathname)
 
-  if (!product_id && !variant_id) {
-    //get info of product
-    getProductData(store_id).then((product_data) => {
-      console.log("product_data")
-      console.log(product_data)
-      console.log("product_data")
-      window.localStorage.setItem('Ecommitment-product_id', product_data.product_id);
-      window.localStorage.setItem('Ecommitment-variant_id', product_data.variant_id);
-      window.localStorage.setItem('Ecommitment-product_price', product_data.product_price);
+  // if (!product_id && !variant_id) {
+  //   //get info of product
+  //   getProductData(store_id).then((product_data) => {
+  //     console.log("product_data")
+  //     console.log(product_data)
+  //     console.log("product_data")
+  //     window.localStorage.setItem('Ecommitment-product_id', product_data.product_id);
+  //     window.localStorage.setItem('Ecommitment-variant_id', product_data.variant_id);
+  //     window.localStorage.setItem('Ecommitment-product_price', product_data.product_price);
 
-    });
-  }
+  //   });
+  // }
 
-  // Check the current URL path
-  if (window.location.pathname.startsWith('/checkout/v3/next/')) {
-    //Chequear si tiene el producto cargado como bono ambiental.
-
-
-    //Obtener la data de la calculadora
-    performCalculation().then((calculation_response) => {
-      console.log("calculation_response")
-      console.log(calculation_response)
-      console.log("calculation_response")
-
-      //Validar que el calculator response devuelva info, sino no mostrar el banner. 
-      //if(!calculation_response){
-      //  return true
-      //} 
-
-      let message = ""
-      let qty = calculation_response.fractionQuantity.quantity
+  // // Check the current URL path
+  // if (window.location.pathname.startsWith('/checkout/v3/next/')) {
+  //   //Chequear si tiene el producto cargado como bono ambiental.
 
 
-      //Validar el address
-      if (!LS.cart.shippingAddress.address) {
-        //Si no hay address de destino (osea no hay nada que pagar, hacer otra cosa. )
-        console.log("NO TIENE ADDRESS")
-        message = "¡Compensa el impacto ambiental de tu envío!"
-        qty = 1
-      } else {
-        console.log("TIENE ADDRESS")
-        message = "¡Compensa el impacto ambiental de tu envío!"
-      }
-      showEnvironmentDiv(qty, message, window.localStorage.getItem('Ecommitment-product_price'))
+  //   //Obtener la data de la calculadora
+  //   performCalculation().then((calculation_response) => {
+  //     console.log("calculation_response")
+  //     console.log(calculation_response)
+  //     console.log("calculation_response")
+
+  //     //Validar que el calculator response devuelva info, sino no mostrar el banner. 
+  //     //if(!calculation_response){
+  //     //  return true
+  //     //} 
+
+  //     let message = ""
+  //     let qty = calculation_response.fractionQuantity.quantity
+
+
+  //     //Validar el address
+  //     if (!LS.cart.shippingAddress.address) {
+  //       //Si no hay address de destino (osea no hay nada que pagar, hacer otra cosa. )
+  //       console.log("NO TIENE ADDRESS")
+  //       message = "¡Compensa el impacto ambiental de tu envío!"
+  //       qty = 1
+  //     } else {
+  //       console.log("TIENE ADDRESS")
+  //       message = "¡Compensa el impacto ambiental de tu envío!"
+  //     }
+      // showEnvironmentDiv(qty, message, window.localStorage.getItem('Ecommitment-product_price'))
+
+      let message = "¡Compensa el impacto ambiental de tu envío!";
+
+      showEnvironmentDiv(2, message, 4);
 
 
       //PENDIENTE: SI NO TIENE EMISIONES, QUE EL CHECK ESTE VERDE.
 
-      for (let p = 0; p < LS.cart.items.length; p++) {
-        if (LS.cart.items[p].variant_id == window.localStorage.getItem('Ecommitment-variant_id')) {
-          console.log("variant " + window.localStorage.getItem('Ecommitment-variant_id') + " existe")
-          switchCheckbox.checked = true;
-          let cart_quantity = LS.cart.items[p].quantity
-          let calculator_quantity = qty
-          console.log("cart_quantity: " + cart_quantity)
-          console.log("calculator_quantity: " + calculator_quantity)
-          if(cart_quantity !== calculator_quantity){
-            removeUniqueProductFromCart(calculator_quantity, variant_id)
-            reloadPageAfterDelay();
-          }
-        }
-      }
+      // for (let p = 0; p < LS.cart.items.length; p++) {
+      //   if (LS.cart.items[p].variant_id == window.localStorage.getItem('Ecommitment-variant_id')) {
+      //     console.log("variant " + window.localStorage.getItem('Ecommitment-variant_id') + " existe")
+      //     switchCheckbox.checked = true;
+      //     let cart_quantity = LS.cart.items[p].quantity
+      //     let calculator_quantity = qty
+      //     console.log("cart_quantity: " + cart_quantity)
+      //     console.log("calculator_quantity: " + calculator_quantity)
+      //     if(cart_quantity !== calculator_quantity){
+      //       removeUniqueProductFromCart(calculator_quantity, variant_id)
+      //       reloadPageAfterDelay();
+      //     }
+      //   }
+      // }
 
       // Check the state of the switch when it is clicked
-      switchCheckbox.addEventListener('change', function () {
-        if (switchCheckbox.checked) {
-          console.log('Switch is ON');
-          //Add product to cart for the amount given. 
-          addProductToCart(product_id, variant_id, qty)
+      // switchCheckbox.addEventListener('change', function () {
+      //   if (switchCheckbox.checked) {
+      //     console.log('Switch is ON');
+      //     //Add product to cart for the amount given. 
+      //     addProductToCart(product_id, variant_id, qty)
 
-          // Call the function to initiate the delay and page reload
-          reloadPageAfterDelay();
+      //     // Call the function to initiate the delay and page reload
+      //     reloadPageAfterDelay();
 
-        } else {
-          //REMOVE PRODUCT. 
-          console.log('Switch is OFF');
-          //Remove product from cart for the amount given. 
-          removeUniqueProductFromCart(0, variant_id)
+      //   } else {
+      //     //REMOVE PRODUCT. 
+      //     console.log('Switch is OFF');
+      //     //Remove product from cart for the amount given. 
+      //     removeUniqueProductFromCart(0, variant_id)
 
-          console.log("log after remove product")
+      //     console.log("log after remove product")
 
-          // Call the function to initiate the delay and page reload
-          //reloadPageAfterDelay();
-        }
-      });
+      //     // Call the function to initiate the delay and page reload
+      //     //reloadPageAfterDelay();
+      //   }
+      // });
       infoButton.addEventListener('click', function () {
         openModal()
       })
@@ -717,32 +721,32 @@
       })
 
 
-    })
+    })();
 
 
 
 
 
-  } else {
-    console.log("start path")
+  // } else {
+  //   console.log("start path")
 
-    getProductData(store_id).then((product_data) => {
-      console.log("product_data")
-      console.log(product_data)
-      console.log("product_data")
-      window.localStorage.setItem('Ecommitment-product_id', product_data.product_id);
-      window.localStorage.setItem('Ecommitment-variant_id', product_data.variant_id);
-      window.localStorage.setItem('Ecommitment-product_price', product_data.product_price);
+  //   getProductData(store_id).then((product_data) => {
+  //     console.log("product_data")
+  //     console.log(product_data)
+  //     console.log("product_data")
+  //     window.localStorage.setItem('Ecommitment-product_id', product_data.product_id);
+  //     window.localStorage.setItem('Ecommitment-variant_id', product_data.variant_id);
+  //     window.localStorage.setItem('Ecommitment-product_price', product_data.product_price);
 
-    });
-
-
-
-  }
-
-  console.log("LS")
-  console.log(LS)
-  console.log("LS")
+  //   });
 
 
-})();
+
+  // }
+
+//   console.log("LS")
+//   console.log(LS)
+//   console.log("LS")
+
+
+// })();
